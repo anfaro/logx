@@ -5,3 +5,4 @@ logx/resource/
 *.py[cod]
 *$py.class
 .pytest_cache
+.env

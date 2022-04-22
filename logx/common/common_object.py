@@ -277,6 +277,7 @@ class Multiple:
             'year'  : self._date.result['data'][2], #type: ignore
             'data'  : modified,
             'total' : self.total,
+            'total_idr': self.total_idr,
             'note'  : self.note
         }
 

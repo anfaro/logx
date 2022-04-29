@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route('/')
 def welcome():
     d = Database()
-    v = d.get('20').VALUE
+    v = d.get('22').VALUE
 
     modified = []
     for items in v.records:
@@ -22,6 +22,11 @@ def welcome():
 
     return render_template('welcome.html', m=modified)
 
+@app.route('/page')
+def page():
+    return "Helooo page"
 
 
-app.run(debug=True)
+if __name__ == "__main__":
+    print("Running Web Server .main")
+    app.run(debug=True)

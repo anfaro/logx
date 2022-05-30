@@ -6,8 +6,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def welcome():
+    """
     d = Database()
-    v = d.get('22').VALUE
+    v = d.get('22 apr').VALUE
 
     modified = []
     for items in v.records:
@@ -19,8 +20,8 @@ def welcome():
             note=items.note
         )
         modified.append(d1)
-
-    return render_template('welcome.html', m=modified)
+    """
+    return render_template('welcome.html')
 
 @app.route('/page')
 def page():

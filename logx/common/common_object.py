@@ -207,11 +207,30 @@ class Record:
 
 @dataclass
 class Customer:
+    id : int = field(init=False)
     name : str
     total: int
+    total_idr: str = field(init=False, default='')
+
+    def __post_init__(self) -> None:
+        self.total_idr = idr_currency(self.total)
 
     def increase(self, t_value: int) -> None:
         self.total = self.total + t_value
+        self.total_idr = idr_currency(self.total)
+
+    def unpack(self) -> dict[str, Any]:
+        return {
+            '_id': self.id,
+            'name':self.name,
+            'total':self.total
+        }
+
+    def repack(self, data: dict[str, Any]) -> None:
+        self.id = str(data['_id'])
+        self.name = data['name']
+        self.total = data['total']
+        self.total_idr = idr_currency(data['total'])
 
     def __repr__(self) -> str:
         return self.name

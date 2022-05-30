@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Dict
 
 from logx.common.common_object import (
         CustomDate, Multiple, DatabaseResult, Result, Customer
@@ -201,22 +202,14 @@ class Database:
             return DatabaseResult(Result.S_NFOUND, False)
 
 
-    def get_customers_list(self) -> None:
-        # Get all customer name and save to new collection
+    def get_customers_list(self) -> DatabaseResult:
 
-        data = self.get_all()
-        c_name = {}
+        collection = self.db['customer']
+        c_list = {}
 
-        for items in data.VALUE:
-            for c_list in items.records:
-                if c_list.cname not in list(c_name.keys()):
-                    print(f"Appending {c_list.cname}")
-                    c_name[c_list.cname] = Customer(c_list.cname, c_list.trx)
-                else:
-                    print(f"Increasing {c_list.cname}")
-                    #c_res = c_name[c_list.cname]
-                    #c_res.increase(c_list.trx)
-                    #c_name[c_list.cname] = c_res
-                    c_name[c_list.cname].increase(c_list.trx)
+        for items in collection.find():
+            cs = Customer(items['name'], items['total'])
+            cs.id = items['_id']
+            c_list[items['name']] = cs
 
-        return c_name
+        return DatabaseResult(Result.S_SUCCESS, c_list)
